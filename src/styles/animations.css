@@ -1,0 +1,131 @@
+/* ==========================================================
+   Animations, hover effects and the few helper styles the Figma
+   style file does not have. Delete any block to remove that effect.
+   ========================================================== */
+
+/* ---------- 1. announcement bar: looping marquee ---------- */
+.announce { padding: 11px 0; overflow: hidden; white-space: nowrap; text-align: left; }
+.announce-track { display: flex; width: max-content; animation: loop-x 38s linear infinite; }
+.announce:hover .announce-track { animation-play-state: paused; }
+.announce-set { display: flex; }
+.announce-item { display: flex; align-items: center; gap: 40px; padding-right: 40px; }
+.announce-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pill-line); }
+@keyframes loop-x { to { transform: translateX(-50%); } }
+
+/* ---------- 2. ticker: seamless loop, pauses on hover ---------- */
+.ticker-track { gap: 0; padding-left: 0; }
+.ticker-set { display: flex; align-items: center; gap: 48px; padding-right: 48px; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker-item { transition: color .3s ease; }
+.ticker-item:hover { color: var(--white); }
+
+/* ---------- 3. hero text: words slide up, rest fades in ---------- */
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .02em .1em; margin-bottom: -.1em; }
+.w-in { display: inline-block; transform: translateY(115%); animation: word-up .9s cubic-bezier(.2,.75,.2,1) forwards; animation-delay: calc(var(--i) * 70ms + 120ms); }
+@keyframes word-up { to { transform: none; } }
+.hero-anim { opacity: 0; transform: translateY(18px); animation: fade-up .8s cubic-bezier(.2,.75,.2,1) forwards; animation-delay: var(--d, 0ms); }
+@keyframes fade-up { to { opacity: 1; transform: none; } }
+.hero::before { animation: glow 9s ease-in-out infinite alternate; }
+@keyframes glow { from { transform: translateX(-50%) scale(1); opacity: .85; } to { transform: translateX(-50%) scale(1.12); opacity: .6; } }
+
+/* ---------- 4. sections fade in on scroll ---------- */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.75,.2,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- 5. hover effects ---------- */
+.btn { transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, color .25s ease, border-color .25s ease; }
+.btn:hover { transform: translateY(-3px); }
+.btn:active { transform: translateY(0); }
+.btn--white:hover { box-shadow: 0 10px 30px rgba(255,255,255,.22); }
+.btn--black:hover { background: var(--navy); box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+.btn--navy:hover { background: var(--navy-border); box-shadow: 0 10px 30px rgba(27,44,94,.55); }
+
+.nav-link { position: relative; transition: color .25s ease; }
+.nav-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+.nav-link:hover { color: var(--white); }
+.nav-link:hover::after, .nav-link.is-active::after { transform: scaleX(1); }
+.footer-link { transition: color .25s ease; }
+.footer-link:hover { color: var(--white); }
+.logo-mark { transition: transform .35s cubic-bezier(.2,.75,.2,1); }
+.logo:hover .logo-mark { transform: rotate(-8deg) scale(1.08); }
+
+.side-card, .real-card, .feature, .step, .creator, .split-item, .fit-card, .stat {
+  transition: transform .35s cubic-bezier(.2,.75,.2,1), border-color .35s ease, box-shadow .35s ease;
+}
+.side-card:hover, .real-card:hover, .feature:hover, .step:hover, .creator:hover, .split-item:hover, .fit-card:hover { transform: translateY(-6px); }
+.feature:hover, .creator:hover, .real-card:hover, .split-item:hover, .side-card--creator:hover { border-color: var(--pill-line); box-shadow: 0 18px 40px rgba(11,27,64,.5); }
+.side-card--brand:hover, .step:hover, .fit-card:hover { box-shadow: 0 18px 40px rgba(11,27,64,.35); }
+.avatar { transition: transform .35s ease; }
+.creator:hover .avatar { transform: scale(1.08); }
+.niche, .filter, .choice, .chip { transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .25s ease; }
+.niche:hover { background: var(--white); color: var(--black); border-color: var(--white); transform: translateY(-2px); }
+.filter, .choice { cursor: pointer; font-family: var(--font-ui); }
+.filter:hover, .choice:hover { border-color: var(--pill-line); }
+.filter.is-active:hover, .choice.is-active:hover { border-color: var(--white); }
+.input { transition: border-color .25s ease, box-shadow .25s ease; }
+.input:focus { outline: none; border-color: var(--pill-line); box-shadow: 0 0 0 3px rgba(75,92,143,.35); }
+
+/* roster cards animate in when the filter changes */
+.creator { animation: card-in .5s cubic-bezier(.2,.75,.2,1) both; animation-delay: calc(var(--k, 0) * 70ms); }
+@keyframes card-in { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: none; } }
+
+/* ---------- 6. FAQ: smooth open and close ---------- */
+.faq-item { gap: 0; }
+.faq-head { width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.faq-plus { flex: 0 0 18px; width: 18px; height: 18px; transition: transform .35s cubic-bezier(.2,.75,.2,1); }
+.faq-item.is-open .faq-plus { transform: rotate(45deg); }
+.faq-head:hover .faq-q { color: var(--muted-blue); }
+.faq-q { transition: color .25s ease; }
+.faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.2,.75,.2,1); }
+.faq-answer > div { overflow: hidden; }
+.faq-a { padding-top: 14px; opacity: 0; transition: opacity .3s ease; }
+.faq-item.is-open .faq-answer { grid-template-rows: 1fr; }
+.faq-item.is-open .faq-a { opacity: 1; transition-delay: .1s; }
+
+/* ---------- helpers the Figma style file does not have ---------- */
+.section--white .lead { color: var(--ink-muted); }
+.price-card .text-lg { color: var(--muted-blue); }
+.price-card > div:first-child { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.pill-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.real-single { width: 100%; max-width: 760px; }
+.real-single .real-col { flex: none; }
+.roster-intro { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+.creator-info { display: flex; flex-direction: column; gap: 22px; margin: 0; }
+.creator-grid-empty { grid-column: 1 / -1; }
+.check-item svg { margin-top: 4px; }
+.split-item svg, .fit-item svg { flex: 0 0 18px; width: 18px; height: 18px; margin-top: 5px; }
+.fit-item { display: flex; gap: 14px; align-items: flex-start; }
+.fit-list { display: flex; flex-direction: column; gap: 18px; }
+.avatar { object-position: center 20%; }
+.founder-photo--placeholder { display: grid; place-content: center; gap: 6px; text-align: center; font-size: 13px; font-weight: 600; letter-spacing: .14em; color: var(--muted); }
+.founder-photo--placeholder span:last-child { font-weight: 400; letter-spacing: 0; }
+
+/* ---------- 7. mobile menu (hamburger turns into a close icon) ---------- */
+.nav-mobile { display: none; }
+.menu-button { cursor: pointer; transition: background-color .3s ease, border-color .3s ease; }
+.menu-button span { transition: transform .35s cubic-bezier(.2,.75,.2,1), opacity .2s ease, background-color .3s ease; }
+.menu-button:hover { border-color: var(--pill-line); }
+.menu-button.is-open { background: var(--white); border-color: var(--white); }
+.menu-button.is-open span { background: var(--black); }
+.menu-button.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-button.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-button.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 767px) {
+  .announce { padding: 10px 0; }
+  .ticker-set { gap: 26px; padding-right: 26px; }
+  .nav-mobile { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2,.75,.2,1); }
+  .nav-mobile.is-open { grid-template-rows: 1fr; }
+  .nav-mobile-inner { overflow: hidden; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; padding: 0 20px; transition: padding .45s ease; }
+  .nav-mobile.is-open .nav-mobile-inner { padding: 8px 20px 28px; }
+  .nav-mobile-inner > * { opacity: 0; transform: translateY(12px); }
+  .nav-mobile.is-open .nav-mobile-inner > * { animation: fade-up .5s cubic-bezier(.2,.75,.2,1) forwards; animation-delay: calc(var(--k) * 55ms + 120ms); }
+  .nav-mobile .nav-link { font-size: 22px; }
+  .nav-mobile .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announce-track, .hero::before { animation: none; }
+  .w-in, .hero-anim, .creator { animation: none; opacity: 1; transform: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
